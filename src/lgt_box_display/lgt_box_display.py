@@ -37,6 +37,7 @@ class Big_Box_Die_Display():
         fig=Big_Box.lgt_big_box_generator(fig, box_id=box_id,lgt_oa_id=lot_id,defect_observed=not defect_table_df.empty,visual_axis=False)
         if not without_wafer:
                 wafer_list=box_data['W_id'].unique().tolist()
+                print(wafer_list)
 
                 Wafer_df=pd.DataFrame({'text':wafer_list,
                                         'x':delta_x*np.ones(len(wafer_list)),
@@ -85,9 +86,9 @@ class Big_Box_Die_Display():
                         fig.add_annotation(x=row['x'], y=row['y'],text="F"+str(row['F'])+row['D'],textangle=0,font=dict(size=text_size+1,color=row['lgt_gray_text']),showarrow=False)
                         fig.add_annotation(x=row['x'], y=row['bottom']+0.15*row['height'],text=row["all_defect"],textangle=0,font=dict(size=text_size,color='gray'),showarrow=False)
                 
-                elif 4>row['width']>=3 and 5>row['height']:
+                elif 4>row['width']>=2 and 6>row['height']:
                         display_case_df=LGT_df_General.append_row(display_case_df,{'index':[index],'width':[row['width']],'height':[row['height']],'case':[5]})
-                        fig.add_annotation(x=row['x']+0.15*row['width'], y=row['top']+15*row['height'],text=index,font=dict(size=text_size+1,color=row['lgt_gray_text']),showarrow=False)
+                        fig.add_annotation(x=row['x']+0.15*row['width'], y=row['top']+0.2*row['height'],text=index,font=dict(size=text_size+1,color='white'),showarrow=False)
                         fig.add_annotation(x=row['x'], y=row['y']+0.1*row['height'],text=row['W'],textangle=0,font=dict(size=text_size,color=row['lgt_color_text']),showarrow=False)
                         fig.add_annotation(x=row['left']-0.8, y=row['y'],text="F"+str(row['F'])+row['D'],textangle=-90,font=dict(size=text_size,color='white'),showarrow=False)
                         # fig.add_annotation(x=row['right']+1, y=row['y'],text="D"+row['WFC'][2:].split('D')[1],textangle=-90,font=dict(size=text_size,color='white'),showarrow=False)
@@ -117,7 +118,7 @@ class Big_Box_Die_Display():
                         fig.add_annotation(x=row['left']+0.7*row['width'], y=row['bottom']+0.8*row['height'],text=row['W'],textangle=0,font=dict(size=text_size+6,color=row['lgt_gray_text']),showarrow=False)
                         # fig.add_annotation(x=row['x'], y=row['bottom']+0.65*row['height'],text="F"+str(row['F'])+row['D'],textangle=0,font=dict(size=text_size+2,color=row['lgt_gray_text']),showarrow=False)
                         # fig.add_annotation(x=row['x'], y=row['bottom']+0.45*row['height'],text="F"+str(row['F'])+row['D'],textangle=0,font=dict(size=text_size+8,color=row['lgt_gray_text']),showarrow=False)
-                        fig.add_annotation(x=row['x'], y=row['bottom']+0.45*row['height'],text=str(row['F'])+row['D'],textangle=0,font=dict(size=text_size+8,color=row['lgt_gray_text']),showarrow=False)
+                        fig.add_annotation(x=row['x'], y=row['bottom']+0.45*row['height'],text="F"+str(row['F'])+row['D'],textangle=0,font=dict(size=text_size+8,color=row['lgt_gray_text']),showarrow=False)
                         fig.add_annotation(x=row['x'], y=row['bottom']+0.15*row['height'],text=row["all_defect"],textangle=0,font=dict(size=text_size+4,color='gray'),showarrow=False)
 
         # pre-binning
@@ -275,7 +276,7 @@ class Gel_Pak_Die_Display():
         # pre-binning
         user_google_drive=User_Info.get_user_GoogleDrive()
         if save_fig:
-                if QR:
+                if QR=='Quality Report':
                         os.chdir(r''+user_google_drive+'/Engineering - Lots/'+lot_id+'/Quality reports')
                         fig.write_image(box_id+"-QR_2.png",format='png',width=1183,height=900,scale=3)
                 else:
@@ -406,7 +407,7 @@ class Small_Box_Die_Display():
         # pre-binning
         user_google_drive=User_Info.get_user_GoogleDrive()
         if save_fig:
-                if QR:
+                if QR=='Quality Report':
                         os.chdir(r''+user_google_drive+'/Engineering - Lots/'+lot_id+'/Quality reports')
                         fig.write_image(box_id+"-QR_4.png",format='png',width=1250,height=720,scale=3)
                 else:
