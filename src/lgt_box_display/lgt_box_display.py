@@ -92,7 +92,7 @@ class Big_Box_Die_Display():
                         fig.add_annotation(x=row['x'], y=row['y']+0.1*row['height'],text=row['W'],textangle=0,font=dict(size=text_size,color=row['lgt_color_text']),showarrow=False)
                         fig.add_annotation(x=row['left']-0.8, y=row['y'],text="F"+str(row['F'])+row['D'],textangle=-90,font=dict(size=text_size,color='white'),showarrow=False)
                         # fig.add_annotation(x=row['right']+1, y=row['y'],text="D"+row['WFC'][2:].split('D')[1],textangle=-90,font=dict(size=text_size,color='white'),showarrow=False)
-                        fig.add_annotation(x=row['x'], y=row['bottom']-0.8,text=row["all_defect"],textangle=0,font=dict(size=text_size-1,color='gray'),showarrow=False)
+                        fig.add_annotation(x=row['x'], y=row['bottom']+0.2*row['height'],text=row["all_defect"],textangle=0,font=dict(size=text_size-1,color='gray'),showarrow=False)
 
                 elif 3>row['width']>=1 and 5>row['height']:
                         # print(f'case {8}')
@@ -126,7 +126,7 @@ class Big_Box_Die_Display():
         if save_fig:
                 if QR=='Quality Report':
                         os.chdir(r''+user_google_drive+'/Engineering - Lots/'+lot_id+'/Quality reports')
-                        fig.write_image(box_id+"-QR.png",format='png',width=1183,height=900,scale=3)
+                        fig.write_image(box_id+"-QR_2.png",format='png',width=1183,height=900,scale=3)
                 else:
                         os.chdir(r''+ user_google_drive +'/Engineering - Lots/'+lot_id+'/Box maps')
                         fig.write_image(box_id+"-BM.png",format='png',width=1183,height=900,scale=3)
@@ -295,12 +295,12 @@ class Small_Box_Die_Display():
         fig = go.Figure()
 
         wafer_list=box_data['W_id'].unique().tolist()
-        print(wafer_list)
+        # print(wafer_list)
         Wafer_df=pd.DataFrame({'text':wafer_list,
                                 'x':delta_x*np.ones(len(wafer_list)),
                                 'y':[25.5-i*1.42 for i in range(len(wafer_list))]})
-        print(Wafer_df)
-        many_defetcs=False
+        # print(Wafer_df)
+        many_defetcs=True if len(defect_table_df)>4 else False
         fig=Small_Box.lgt_small_box_generator(fig=fig,box_id=box_id,lgt_oa_id=lot_id,defect_observed=not defect_table_df.empty,visual_axis=False,many_defetcs=many_defetcs)
 
         for index, row in Wafer_df.iterrows():
@@ -362,8 +362,8 @@ class Small_Box_Die_Display():
                         fig.add_annotation(x=row['left']+0.7*row['width'], y=row['bottom']+0.8*row['height'],text=row['WFC'][:2],textangle=0,font=dict(size=text_size,color=row['lgt_gray_text']),showarrow=False)
                         fig.add_annotation(x=row['x'], y=row['y']-0.05*row['height'],text=row['WFC'][2:],textangle=0,font=dict(size=text_size+1,color=row['lgt_gray_text']),showarrow=False)
 
-                        fig.add_annotation(x=row['x'], y=row['bottom']+0.15*row['height'],text=row["all_defect"],textangle=0,font=dict(size=text_size-4,color='white'),showarrow=False)
-                        # fig.add_annotation(x=row['x'], y=row['bottom']-0.55*row['height'],text=row["C_defect"],textangle=0,font=dict(size=text_size-4,color='white'),showarrow=False)
+                        fig.add_annotation(x=row['x'], y=row['bottom']+0.25*row['height'],text=row["all_defect"],textangle=0,font=dict(size=text_size-4,color='white'),showarrow=False)
+                        fig.add_annotation(x=row['x'], y=row['bottom']+0.05*row['height'],text=row["C_defect"],textangle=0,font=dict(size=text_size-4,color='white'),showarrow=False)
                         	
                 
                 elif 4>row['width']>=3 and 5>row['height']:
@@ -381,7 +381,8 @@ class Small_Box_Die_Display():
                         fig.add_annotation(x=row['left']-0.6, y=row['y'],text=row['WFC'][:2],textangle=-90,font=dict(size=text_size,color='white'),showarrow=False)
                         fig.add_annotation(x=row['x'], y=row['top']+0.6,text=row['WFC'][2:].split('D')[0],textangle=0,font=dict(size=text_size,color='white'),showarrow=False)
                         fig.add_annotation(x=row['right']+1, y=row['y'],text="D"+row['WFC'][2:].split('D')[1],textangle=-90,font=dict(size=text_size,color='white'),showarrow=False)
-                        fig.add_annotation(x=row['x'], y=row['bottom']-0.8,text=row["all_defect"],textangle=0,font=dict(size=text_size-1,color='gray'),showarrow=False)
+                        fig.add_annotation(x=row['x']-1, y=row['bottom']-0.8,text=row["all_defect"],textangle=0,font=dict(size=text_size-2,color='gray'),showarrow=False)
+                        fig.add_annotation(x=row['right']+1, y=row['bottom']-0.8,text=row["C_defect"],textangle=0,font=dict(size=text_size-2,color='gray'),showarrow=False)
 
                 elif 1>row['width'] and 10>row['height']:
                         # print(f'case {8}')
@@ -409,7 +410,7 @@ class Small_Box_Die_Display():
         if save_fig:
                 if QR=='Quality Report':
                         os.chdir(r''+user_google_drive+'/Engineering - Lots/'+lot_id+'/Quality reports')
-                        fig.write_image(box_id+"-QR_4.png",format='png',width=1250,height=720,scale=3)
+                        fig.write_image(box_id+"-QR_7.png",format='png',width=1250,height=720,scale=3)
                 else:
                         os.chdir(r''+ user_google_drive +'/Engineering - Lots/'+lot_id+'/Box maps')
                         fig.write_image(box_id+"-BM.png",format='png',width=1250,height=720,scale=3)
